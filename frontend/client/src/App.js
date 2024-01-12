@@ -5,8 +5,7 @@ function App() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    // Appel de l'API pour récupérer les données
-    fetch('/api/data')
+    fetch(`/api/data?${new Date().getTime()}`)
       .then(response => response.json())
       .then(data => setData(data));
   }, []);
