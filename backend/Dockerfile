@@ -1,19 +1,15 @@
-# Utilise une image légère de Python
-FROM python:3.8-slim
+# Utiliser l'image Python 3.9
+FROM python:3.9
 
-# Définis le répertoire de travail
+# Définir le répertoire de travail
 WORKDIR /app
 
-# Copie les fichiers requis
-COPY ./backend/requirements.txt /app/
-COPY ./backend/app.py /app/
-COPY ./backend/templates /app/templates
+# Copier les fichiers de l'application (requirements.txt et tout le reste)
+COPY requirements.txt requirements.txt
+COPY . .
 
-# Installe les dépendances
-RUN pip install --no-cache-dir -r requirements.txt
+# Installer les dépendances
+RUN pip install -r requirements.txt
 
-# Expose le port 5000
-EXPOSE 5000
-
-# Démarre l'application
+# Commande par défaut pour lancer l'application
 CMD ["python", "app.py"]

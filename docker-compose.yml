@@ -1,28 +1,30 @@
 version: '3'
 services:
-  frontend:
-    build:
-      context: .
-      dockerfile: ./frontend/Dockerfile
-    ports:
-      - "8080:80"
   backend:
     build:
-      context: .
-      dockerfile: ./backend/Dockerfile
+      context: ./backend  # Répertoire contenant les fichiers nécessaires pour construire le backend
+      dockerfile: Dockerfile  # Nom du fichier Dockerfile à utiliser
     ports:
-      - "5000:5000"
+      - "5000:5000" # Mappage du port du conteneur (5000) vers le port de l'hôte (5000)
     environment:
-      - FLASK_ENV=development
-      - DATABASE_URL=postgresql://myuser:mypassword@db:5432/mydatabase
+      - FLASK_ENV=${FLASK_ENV} # Variable d'environnement pour l'environnement Flask (développement ou test)
+      - MONGO_URI=${MONGO_URI} # Variable d'environnement pour l'URI de la base de données MongoDB
     depends_on:
-      - db
+      - mongo # Le service backend dépend du service mongo
 
-  db:
-    image: postgres:alpine
-    environment:
-      POSTGRES_DB: mydatabase
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
+  mongo:
+    image: mongo # Utilisation de l'image officielle MongoDB depuis Docker Hub
     ports:
-      - "5432:5432"
+      - "27017:27017" #Mappage du port du conteneur (27017) vers le port de l'hôte (27017)
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root # Nom d'utilisateur root pour MongoDB
+      - MONGO_INITDB_ROOT_PASSWORD= rootpassword  # Mot de passe root pour MongoDB
+
+  frontend:
+    build:
+      context: ./frontend/client # Répertoire contenant les fichiers nécessaires pour construire le frontend
+      dockerfile: Dockerfile # Nom du fichier Dockerfile à utiliser
+    ports:
+      - "3000:3000" # Mappage du port du conteneur (3000) vers le port de l'hôte (3000)
+    depends_on:
+      - backend # Le service frontend dépend du service backend
