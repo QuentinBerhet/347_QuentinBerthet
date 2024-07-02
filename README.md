@@ -12,8 +12,7 @@ Ce projet est une application web simple construite avec Docker Compose, utilisa
 ### Configuration
 1. Créez un fichier .env.dev à la racine du projet avec les variables d'environnement pour le développement. Exemple :
 
-```
-FLASK_ENV=development
+```env
 MONGO_URI=mongodb://root:rootpassword@localhost:27017/dev_db
 ```
 
@@ -23,12 +22,12 @@ MONGO_URI=mongodb://root:rootpassword@localhost:27017/dev_db
 
 1. Ouvrez un terminal et placez-vous à la racine du projet.
 2. Construisez et lancez les services pour l'environnement de développement :
-```
+```bash
 docker-compose --env-file .env.dev up --build
 
 ```
 pour Pour l'environnement de test : 
-```
+```bash
 docker-compose --env-file .env.test up --build
 ```
 3. Accédez à l'application :
